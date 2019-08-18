@@ -11,7 +11,9 @@ deploy:
     repo: sigmaSd/rustman_database
 
 script:
-- cargo t database_check
+  - cargo b
+  - ls
+#- cargo t database_check
 
 notifications:
   email:

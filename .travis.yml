@@ -3,12 +3,12 @@ language: rust
 cache: cargo
 
 deploy:
-  provider: pages
+  provider: releases
+  api_key:
+    secure: cRyXryp1lwumNwc/SELxWoECgfDC8flc0gyg9xEDE6J3oT2CFZ8gDj7fkINfSm97NONVsBs2dg9UGUsufUQwTMbWddhquCbmYNVwC4/n3P40u1PyEu5Lb3k01bVI+Fr6KRoDkbaxVNY1D7zHpViQjqSN2/hOpkdkgDtOrGYhYtbqJu7ZjE6hSKTpW8yetFyfk0/7PHyjnyRXDZmllVA4Z5/S+IdJzSAdSWk0aGg7K7frfPQRyLoYPpYp5hqtpFme3e7EoJVZUZ4GbaHlOcAFAV+Rud5Le6ofU04TMZI4U5ifvqjPSfL7sAgCrPC6wjQVYi4BOzoeiwRms16YMtI+uaxJJ+Gn4NECbOhk1jqcSGNEuzqeGChsL3ODzBmMU4ZuBnef9GuvwF4B64DXZsmC8y9NzyHRJG/mkS5pFJ0hCvdseUOpqkkfTR2JvSHtshpGpG9YKowSH0dbh49+/1ZY556d9/ykmFV0kVgFgCWDTGCfIvTJWbazZ9LeUPJOzmCo7F6Qu0zvEzy4IWc99UTMxNTLOD5JxwT1zlzRn2T6cdiog2fOoqnRDyv3KxgX7Ng3MpOQG+yLGhvHh4YUes+zSfw00ga7K+vS3ejwLneQyEDQwO2KyxJeLerPBEOFeNiejzZHsMbVMF5yeyKZPDvrY+eTHbc1l2inkgwAW5kJ8qY=
+  file: database
+  file: blacklist
   skip_cleanup: true
-#  github_token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
-  keep_history: true
-  on:
-    branch: master
 
 script:
- - cargo t
+ - cargo t database_check

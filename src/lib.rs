@@ -1,7 +1,6 @@
 use serde::{Deserialize, Serialize};
-use std::io::{Read, Write};
+use std::io::Write;
 use std::sync::{Arc, Mutex};
-use std::time::{Duration, SystemTime};
 use unchained::Unchained;
 
 const CRATES_URL_TEMPLATE: &str = "https://crates.io/api/v1/crates?per_page=100&page=";
@@ -34,101 +33,6 @@ impl Crate {
 }
 
 impl Database {
-    pub fn new() -> Self {
-        let database_path = "database.toml";
-
-        match std::fs::File::open(&database_path) {
-            Ok(mut database_file) => {
-                let mut database = String::new();
-                database_file.read_to_string(&mut database).unwrap();
-                //let crates: Crates = toml::from_str(&database).unwrap();
-                let crates = {
-                    let mut all_crates = vec![];
-
-                    let crates = database.split("\n\n");
-                    for pkg in crates {
-                        if pkg.is_empty() {
-                            continue;
-                        }
-
-                        let mut pkg = pkg.lines().skip(1);
-                        let mut name = pkg
-                            .next()
-                            .unwrap()
-                            .split('=')
-                            .last()
-                            .unwrap()
-                            .trim()
-                            .to_lowercase();
-                        let mut version = pkg
-                            .next()
-                            .unwrap()
-                            .split('=')
-                            .last()
-                            .unwrap()
-                            .trim()
-                            .to_owned();
-                        let mut description = pkg
-                            .next()
-                            .unwrap()
-                            .split('=')
-                            .last()
-                            .unwrap()
-                            .trim()
-                            .to_lowercase();
-
-                        name.remove(0);
-                        version.remove(0);
-                        description.remove(0);
-
-                        name.pop();
-                        version.pop();
-                        description.pop();
-
-                        all_crates.push(Crate {
-                            name,
-                            version,
-                            description,
-                        });
-                    }
-                    all_crates
-                };
-
-                let blacklist = Self::read_black_list();
-                let crates = crates
-                    .into_iter()
-                    .filter(|c| !blacklist.contains(&c.name))
-                    .collect();
-
-                let mut database = Self {
-                    crates: Arc::new(Mutex::new(crates)),
-                    blacklist,
-                };
-
-                let args: Vec<String> = std::env::args().collect();
-                if !args.contains(&"--offline".to_string())
-                    && (args.contains(&"--update-database".to_string())
-                        || SystemTime::now()
-                            .duration_since(database_file.metadata().unwrap().modified().unwrap())
-                            .unwrap()
-                            > Duration::new(24 * 60 * 60, 0))
-                {
-                    database.update();
-                    database.save();
-                }
-
-                database
-            }
-            Err(_) => {
-                let mut database = Database::default();
-                database.update();
-                database.save();
-
-                database
-            }
-        }
-    }
-
     pub fn read_black_list() -> Vec<String> {
         let blacklist_path = "blacklist";
         let blacklist = match std::fs::read_to_string(blacklist_path) {
@@ -245,7 +149,7 @@ impl Database {
 
 #[test]
 fn database_check() {
-    let mut database = Database::new();
+    let mut database = Database::default();
     database.update();
     database.save();
 }

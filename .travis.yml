@@ -1,14 +1,11 @@
 language: rust
-
 cache: cargo
-
 deploy:
   provider: pages
   skip_cleanup: true
-#  github_token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
   keep_history: true
+  github_token: VeTkwwl3icv2iu5/guYnqa83u0zmCLJ7LsJpE/Byok4UPfRCfezifncvoF0Marqlm3QsGBMbvEbnGambJL2T2mw5HcMJXvXx6mgN976kmW5ODnDbjI5rEkw8tv8h1bVJCkONplFIGbueyqf0TSOO0nE6bgxtqtLEDjNM4CTIqUcq86OY+H4xCmUhjbgiqWEHsidrp8cD4AuIPK8erSJan7bcyA7jIQLxOLldhmF3Sk+NA7XnblPOMT6kyyMNSX9z3mxAWFOYYbGh79BIFUr4Tj9Mkm1pCCQ5/qSpEpNRDGGWPzRoiDeVAKRmEuTqIZXUmsMrq0yBtmRW650Es3KPUqCq9DxR6Un/btWrsI7gKcSOs7xI+a+3wRw91+FH/SaLM52AVrS5ASIyuItwY2hbzHYEXdoD/J7qIqyF2BCIPnJeSZIngI2UZXOIN6aZx/n3thXz8QUDiPrcYzwZ8UO657t7N3EszQHYNjEkFlOQvNZF6h5pS7HPje4V6isVWUOyhe4pFg0zS1mbs7cBUzfGq/M9eu/xWxOz9V+PivQ+2IQbgAjPBtTWytIi36AHRVNTep3NGAGzMsssxEOcEEMZrSARqsVgXJO9Jum4SYRGCt96lzd8V2ctz9JxFW6nArYniJVZ/1kGhVbLBlLFQevdTVZvK0Sf31lULfPi45KfX3E=
   on:
     branch: master
-
 script:
- - cargo t
+- cargo t
